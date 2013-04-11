@@ -1,3 +1,12 @@
+'''
+实现xml和python字典之间的互相转换
+规则为：
+1. node的attribute全部忽略
+2. xml转换到dict的时候，root的tag会被忽略掉，所以结果的最外层的key为xml的第一级子节点的tag
+3. dict转xml第2条的逆向，所以需要手动指定一个root的tag
+4. xml中有相同tag名的兄弟节点，在转换成dict的时候会变成一个list(因为python的dict是hash字典，不允许重复key)
+'''
+
 from xml.etree.ElementTree import  Element
 
 def xml2dict(element):
