@@ -1,3 +1,5 @@
+#coding=utf-8
+#@author dingyaguang
 '''
 实现xml和python字典之间的互相转换
 规则为：
