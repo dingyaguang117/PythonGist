@@ -1,3 +1,6 @@
+#coding=utf-8
+#@author dingyaguang
+
 import os
 
 def SingletonProcessDecoration(filename):
