@@ -1,0 +1,32 @@
+import Image
+import ImageFilter
+#IMG = 'poi2_6c6ec0c6f917245ebed49eb464e5033b.50.jpg'
+IMG = 'poi2_7aecc677f212bdd32b635e7c78120f32.70.jpg'
+
+rgb2xyz = (
+        0.412453, 0.357580, 0.180423, 0,
+        0.212671, 0.715160, 0.072169, 0,
+        0.019334, 0.119193, 0.950227, 0 )
+
+def main2():
+    img = Image.open(IMG)
+    img = img.convert('RGB',rgb2xyz)
+    img.save('out.jpg',quality=70)
+    
+def main4():
+    img = Image.open(IMG)
+    img.save('out2.jpg')#,quality=70)
+    img = img.convert('L')
+    img = img.filter(ImageFilter.GaussianBlur)
+    img.save('out.jpg',quality=70)
+    
+def main():
+    img = Image.open(IMG)
+    img.draft('L',(img.size[0]/2,img.size[1]/2))
+    img.save('out.jpg',quality=10)
+    
+if __name__ == '__main__':
+    main()
+    pass
+
+print Image.open('out.jpg').mode
