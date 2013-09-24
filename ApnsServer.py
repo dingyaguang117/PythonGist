@@ -1,5 +1,6 @@
 '''
-使用redis实现的多线程苹果push服务
+使用redis实现的苹果push服务
+支持多线程，安全退出
 '''
 from APNSWrapper import APNSNotificationWrapper
 from APNSWrapper import APNSNotification
