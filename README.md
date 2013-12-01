@@ -8,3 +8,4 @@ python code clip
 4. HttpUtil  
 5. XML <--> JSON 互转  
 6. 单例进程修饰器  
+7. 发送SMTP邮件
