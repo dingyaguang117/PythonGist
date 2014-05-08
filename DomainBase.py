@@ -29,16 +29,10 @@ class DomainBase():
         return self.__class__.__dict__[key]
 
     def __setattr__(self,key,value):
-        if key not in self.__class__.__dict__:
-            raise AttributeError('%s not found'%key)
-        self.data[key] = value
+        self.__setitem__(key,value)
 
     def __getattr__(self,key):
-        if key in self.data:
-            return self.data[key]
-        if key not in self.__class__.__dict__:
-            raise AttributeError('%s not found'%key)
-        return self.__class__.__dict__[key]
+        return self.__getitem__(key)
 
     def getInsertDict(self):
         ret = {}
@@ -61,7 +55,6 @@ class DomainBase():
 
     def pop(self, key):
         return self.data.pop(key)
-
 
 
 
