@@ -10,61 +10,83 @@ PS：后面带默认值，且赋值的时候不做类型检查
 
 '''
 
-class DomainBase():
+class DomainBase(object):
     def __init__(self):
         #注意这里，如果用 self.data = {} 会触发__setattr__导致非预期效果
         #这里把成员存储在名为data的字典里面而不是直接存在 __dict__的原因是，会导致循环递归爆栈
-        self.__dict__['data'] = {}
+        #self.__dict__['data'] = {}
+        pass
 
-    def __setitem__(self,key,value):
+    def __setitem__(self, key, value):
         if key not in self.__class__.__dict__:
-            raise AttributeError('%s not found'%key)
-        self.data[key] = value
+            raise AttributeError('%s not found' % key)
+        self.__dict__[key] = value
 
-    def __getitem__(self,key):
-        if key in self.data:
-            return self.data[key]
+    def __getitem__(self, key):
+        if key in self.__dict__:
+            return self.__dict__[key]
         if key not in self.__class__.__dict__:
-            raise AttributeError('%s not found'%key)
+            raise AttributeError('%s not found' % key)
         return self.__class__.__dict__[key]
 
-    def __setattr__(self,key,value):
-        self.__setitem__(key,value)
+    def __setattr__(self, key, value):
+        self.__setitem__(key, value)
 
-    def __getattr__(self,key):
+    def __getattr__(self, key):
         return self.__getitem__(key)
 
     def getInsertDict(self):
         ret = {}
         for key in self.__class__.__dict__:
             if key.startswith('__'):continue
-            if key not in self.data:
+            if key not in self.__dict__:
                 ret[key] = self.__class__.__dict__[key]
             else:
-                ret[key] = self.data[key]
+                ret[key] = self.__dict__[key]
         return ret
 
     def getUpdateDict(self):
-        return self.data
+        return self.__dict__
 
     def update(self, data, **kwargs):
         for key in kwargs:
             data[key] = kwargs[key]
-        self.data.update(data)
+        self.__dict__.update(data)
         return self
 
     def pop(self, key):
-        return self.data.pop(key)
+        return self.__dict__.pop(key)
 
 
+class Contact(DomainBase):
+    uid = 'default'
+    first_name = ''
+    last_name = ''
+    nick_name = ''
+    home_phone = ''
+    email = ''
+    company = ''
+    department = ''
+    birthday = ''
+    blog_index = ''
+    createTime = ''
 
-class Resource(DomainBase):
-    resourceSize = -1
-    resourceUrl = ''
-    resourceName = ''
-    resourceImageUrl = ''
-    duration = -1
-    channelId = -1
-    categoryId = -1
 
+if __name__ == '__main__':
+    pass
+    #print GiveAway().getInsertDict()
+    c = Contact()
+    # print 'dir(c) : ', dir(c)
+    # print 'c.__dict__ : ', c.__dict__
+    # print type(c)
+    c.uid = '1'
+    c.first_name = 33
+    print 'c.email', c.email
+    print 'c.uid:', c.uid
+    print c.getInsertDict()
+    print c.getUpdateDict()
 
+    c['uid'] = 3
+    c['company'] = '22'
+    print c.getInsertDict()
+    print c.getUpdateDict()
